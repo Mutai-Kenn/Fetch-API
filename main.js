@@ -2,7 +2,7 @@
 
 getChart();
 
-// Drawing chart in Canvas element
+// Drawing line chart in Canvas element
 async function getChart() {
   const data = await getData();
   const ctx = document.getElementById("chart").getContext("2d");
@@ -12,10 +12,27 @@ async function getChart() {
       labels: data.xs,
       datasets: [
         {
-          label: "Global Temperature variation from Average Temperature",
+          label: "Global Temperature in °C",
           data: data.ys,
+          fill: false,
           backgroundColor: "rgba(255, 99, 132, 0.2)",
           borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1
+        },
+        {
+          label: "Nothern Hemisphere Temperature in °C",
+          data: data.nhem,
+          fill: false,
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1
+        },
+        {
+          label: "Southern Hemisphere Temperature in °C",
+          data: data.shem,
+          fill: false,
+          backgroundColor: "rgba(255, 206, 86, 0.2)",
+          borderColor: "rgba(255, 206, 86, 1)",
           borderWidth: 1
         }
       ]
@@ -39,8 +56,16 @@ async function getChart() {
 
 // async function to select required data for display
 async function getData() {
+  const years = [];
+  const globalTemps = [];
+  const northern = [];
+  const southern = [];
+
   const xs = [];
   const ys = [];
+  const nhem = [];
+  const shem = [];
+
   const response = await fetch("temperatures.csv");
   const data = await response.text();
   const table = data.split("\n").slice(1);
@@ -50,7 +75,11 @@ async function getData() {
     xs.push(year);
     const temp = columns[1];
     ys.push(temp);
-    console.log(year, temp);
+    const northern = columns[2];
+    nhem.push(northern);
+    const southern = columns[3];
+    shem.push(southern);
+    console.log(year, temp, northern, southern);
   });
-  return { xs, ys };
+  return { xs, ys, nhem, shem };
 }
