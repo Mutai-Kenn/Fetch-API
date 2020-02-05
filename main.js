@@ -56,11 +56,6 @@ async function getChart() {
 
 // async function to select required data for display
 async function getData() {
-  const years = [];
-  const globalTemps = [];
-  const northern = [];
-  const southern = [];
-
   const xs = [];
   const ys = [];
   const nhem = [];
@@ -79,7 +74,6 @@ async function getData() {
     nhem.push(northern);
     const southern = columns[3];
     shem.push(southern);
-    console.log(year, temp, northern, southern);
   });
   return { xs, ys, nhem, shem };
 }
